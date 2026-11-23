@@ -424,17 +424,28 @@ a { color: var(--K); text-decoration-color: var(--K3); text-underline-offset: 3p
 </main>
 <script>
 // ?theme=dark|light for the checks; display formulas wider than the column shrink to at most 0.8 of the body size,
-// and a formula still wider scrolls sideways inside its own box.
+// and a formula still wider scrolls sideways inside its own box.  The fit runs again only when the width changes:
+// on a phone the address bar changes the height at every scroll, and a refit on each of those resize events reset
+// every formula for a moment and moved the page under the finger (原ハラ「スクロールしてる途中で変な力が働く」).
+// The shrink is computed without resetting the size first, so no layout jump happens even on a width change.
 (function () {
   try { var t = new URLSearchParams(location.search).get('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
   function fit() {
     document.querySelectorAll('.dm').forEach(function (d) {
-      var i = d.firstElementChild; i.style.fontSize = '';
-      var r = d.clientWidth / i.scrollWidth;
-      if (r < 1) i.style.fontSize = Math.max(0.8, r * 0.995) + 'em';
+      var i = d.firstElementChild;
+      var cur = parseFloat(i.style.fontSize) || 1;
+      var natural = i.scrollWidth / cur;
+      var r = d.clientWidth / natural;
+      var want = r < 1 ? Math.max(0.8, r * 0.995) : 1;
+      if (Math.abs(want - cur) > 0.002) i.style.fontSize = want === 1 ? '' : want + 'em';
     });
   }
-  fit(); window.addEventListener('resize', fit);
+  var lastW = window.innerWidth;
+  fit();
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth; fit();
+  });
 })();
 
 </script>
