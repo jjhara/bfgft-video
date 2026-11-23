@@ -32,14 +32,14 @@
   --H: #B8361C; --B: #A85A12; --P: #9B1531; --frame: #E0798A; --onband: #FFFFFF;
   color-scheme: dark;
 }
-html { scroll-snap-type: y proximity; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--page); color: var(--K);
   font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
   font-size: 15.5px; line-height: 1.7;
 }
 #col { max-width: 480px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom, 0px); }
-.card { background: var(--bg); margin: 0 0 14px; scroll-snap-align: start; scroll-margin-top: 0; }
+.card { background: var(--bg); margin: 0 0 14px; }
 .band {
   position: sticky; top: 0; z-index: 2; color: var(--onband); font-weight: 700; font-size: 16px; line-height: 1.3;
   padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
